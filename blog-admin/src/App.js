@@ -1,14 +1,14 @@
 import React from "react";
-import {Route, Router, hashHistory} from "react-router-dom";
-import {LoginPage} from "./layout/LoginPage";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import {DashboardPage} from "./layout/DashboardPage";
 
 class App extends React.Component {
     render() {
         return (
-            <Router history={hashHistory}>
-                <Route path="/" component={LoginPage}/>
-                <Route path="/dashboard" component={DashboardPage}/>
+            <Router>
+                <Switch>
+                    <Route path="/" component={DashboardPage}/>
+                </Switch>
             </Router>
         );
     }
