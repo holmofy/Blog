@@ -1,6 +1,10 @@
 package cn.hff.blog.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import cn.hff.blog.entity.Comment;
+import cn.hff.blog.entity.User;
 
 /**
  * 评论服务
@@ -9,10 +13,12 @@ import cn.hff.blog.entity.Comment;
  */
 public interface CommentService {
 
+    Page<Comment> listComments(int articleId, Pageable pageable);
+
     Comment addComment(Comment comment);
 
-    void deleteComment(int commentId);
+    void deleteComment(User user, int commentId);
 
-    Comment updateComment(Comment comment);
+    Comment updateComment(User user, int commentId, Comment comment);
 
 }

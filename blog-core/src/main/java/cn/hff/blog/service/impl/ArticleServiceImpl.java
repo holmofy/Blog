@@ -15,6 +15,7 @@ import cn.hff.blog.dao.CommentDao;
 import cn.hff.blog.dto.PageArticleDTO;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
+import cn.hff.blog.exception.NotFoundException;
 import cn.hff.blog.exception.PermissionDeniedException;
 import cn.hff.blog.service.ArticleService;
 
@@ -38,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article get(int id) {
-        return articleDao.getOne(id);
+        return articleDao.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override

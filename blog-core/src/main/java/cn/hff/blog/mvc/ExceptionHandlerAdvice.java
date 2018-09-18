@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import cn.hff.blog.exception.AuthenticationException;
+import cn.hff.blog.exception.NotFoundException;
 import cn.hff.blog.exception.PermissionDeniedException;
 
 /**
@@ -20,18 +21,27 @@ public class ExceptionHandlerAdvice {
      * 主要处理{@link com.google.common.base.Preconditions}参数校验的异常
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = IllegalArgumentException.class)
-    public void illegalArgumentExceptionHandler() {
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String illegalArgumentExceptionHandler(IllegalArgumentException e) {
+        return e.getMessage();
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(value = AuthenticationException.class)
-    public void AuthenticationExceptionHandler() {
+    @ExceptionHandler(AuthenticationException.class)
+    public String authenticationExceptionHandler(AuthenticationException e) {
+        return e.getMessage();
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(value = PermissionDeniedException.class)
-    public void PermissionDeniedExceptionHandler() {
-
+    @ExceptionHandler(PermissionDeniedException.class)
+    public String permissionDeniedExceptionHandler(PermissionDeniedException e) {
+        return e.getMessage();
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public String notFoundException(NotFoundException e) {
+        return e.getMessage();
+    }
+
 }

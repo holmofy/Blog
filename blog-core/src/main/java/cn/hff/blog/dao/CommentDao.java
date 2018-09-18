@@ -1,7 +1,10 @@
 package cn.hff.blog.dao;
 
-import cn.hff.blog.entity.Comment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import cn.hff.blog.entity.Comment;
 
 /**
  * {@link Comment}的数据访问对象
@@ -12,4 +15,5 @@ public interface CommentDao extends JpaRepository<Comment, Integer> {
 
     Integer countByArticleId(Integer articleId);
 
+    Page<Comment> findAllByArticleId(int articleId, Pageable pageable);
 }
