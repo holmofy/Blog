@@ -1,0 +1,11 @@
+.header {
+    background: #fff;
+    padding: 0;
+}
+
+.content {
+    margin: 24px 16px;
+    padding: 24px;
+    background: #fff;
+    min-height: 380px;
+}

@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 
 import cn.hff.blog.dao.ArticleDao;
-import cn.hff.blog.dao.CategoryDao;
-import cn.hff.blog.dao.CommentDao;
 import cn.hff.blog.dto.PageArticleDTO;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
@@ -24,12 +22,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleDao articleDao;
-
-    @Autowired
-    private CategoryDao categoryDao;
-
-    @Autowired
-    private CommentDao commentDao;
 
     @Override
     public Article save(User user, Article article) {

@@ -22,6 +22,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 自定义@CurrentUser注解的参数解析器
         resolvers.add(new CurrentUserHandlerMethodArgumentResolver());
         // SpringData分页组件参数解析器
-        resolvers.add(new PageableHandlerMethodArgumentResolver());
+        PageableHandlerMethodArgumentResolver pageableResolver = new PageableHandlerMethodArgumentResolver();
+        pageableResolver.setOneIndexedParameters(true); // 页码从1开始
+        resolvers.add(pageableResolver);
     }
 }

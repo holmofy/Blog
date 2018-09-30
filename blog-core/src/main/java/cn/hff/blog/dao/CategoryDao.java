@@ -1,7 +1,7 @@
 package cn.hff.blog.dao;
 
 import cn.hff.blog.entity.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.data.jpa.repository.Query;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
  * <p>
  * Created by Holmofy on 2018/6/18.
  */
-public interface CategoryDao extends JpaRepository<Category, Integer> {
+public interface CategoryDao extends BaseJpaRepository<Category, Integer> {
 
     @SuppressWarnings("SpringDataRepositoryMethodReturnTypeInspection")
     @Query("select name from Category where id=?1")

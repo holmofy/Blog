@@ -2,11 +2,8 @@ package cn.hff.blog.dao;
 
 import java.util.List;
 
-import javax.persistence.NamedQuery;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import cn.hff.blog.dto.PageArticleDTO;
@@ -17,7 +14,7 @@ import cn.hff.blog.entity.Article;
  * <p>
  * Created by Holmofy on 2018/6/18.
  */
-public interface ArticleDao extends JpaRepository<Article, Integer> {
+public interface ArticleDao extends BaseJpaRepository<Article, Integer> {
 
     @Query("select authorId from Article where id=?1")
     Integer getAuthorIdById(int id);

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import cn.hff.blog.dao.ArticleDao;
+import cn.hff.blog.dao.ArticleDao.IdAndTitle;
 import cn.hff.blog.dto.PageArticleDTO;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
@@ -34,6 +34,6 @@ public interface ArticleService {
      * @param size        最多多少条
      * @return 相关的文章
      */
-    List<ArticleDao.IdAndTitle> likeTitlePrefix(String titlePrefix, int size);
+    List<IdAndTitle> likeTitlePrefix(String titlePrefix, int size);
 
 }

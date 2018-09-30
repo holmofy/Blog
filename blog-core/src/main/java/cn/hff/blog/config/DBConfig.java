@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+import cn.hff.blog.dao.EnhancedJpaRepository;
+
 /**
  * 数据库与事务相关配置
  * <p>
@@ -17,7 +19,10 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
  */
 @Configuration
 @EnableJpaAuditing
-@EnableJpaRepositories(basePackages = "cn.hff.blog.dao")
+@EnableJpaRepositories(
+        basePackages = "cn.hff.blog.dao",
+        repositoryBaseClass = EnhancedJpaRepository.class
+)
 public class DBConfig {
 
     /**
