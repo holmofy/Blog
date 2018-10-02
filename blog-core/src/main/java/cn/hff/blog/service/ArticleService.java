@@ -2,6 +2,8 @@ package cn.hff.blog.service;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,7 +27,7 @@ public interface ArticleService {
 
     Article update(User user, int id, Article article);
 
-    Page<PageArticleDTO> getPage(Pageable pageable);
+    Page<PageArticleDTO> getPage(@Nullable Boolean published, Pageable pageable);
 
     /**
      * 根据用户输入的标题前缀联想用户想要查询的文章

@@ -3,7 +3,6 @@ package cn.hff.blog.dao;
 import java.io.Serializable;
 import java.util.Collection;
 
-import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.metamodel.SingularAttribute;
 
@@ -38,8 +37,6 @@ public interface BaseJpaRepository<T, ID extends Serializable> extends JpaReposi
     NamedParameterJdbcOperations namedParameterJdbcTemplate();
 
     JdbcOperations jdbcTemplate();
-
-    EntityManager entityManager();
 
     static <T, V extends Comparable<? super V>> Specification<T> isNull(SingularAttribute<T, V> attr) {
         return (root, query, cb) -> cb.isNull(root.get(attr));

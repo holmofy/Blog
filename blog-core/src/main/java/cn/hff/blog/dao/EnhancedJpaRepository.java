@@ -3,11 +3,7 @@ package cn.hff.blog.dao;
 import java.io.Serializable;
 
 import javax.persistence.EntityManager;
-import javax.sql.DataSource;
 
-import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.jdbc.core.JdbcOperations;
@@ -23,20 +19,15 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 public class EnhancedJpaRepository<T, ID extends Serializable> extends SimpleJpaRepository<T, ID>
         implements BaseJpaRepository<T, ID> {
 
-    private EntityManager entityManager;
-
+    /**
+     * @see org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
+     */
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public EnhancedJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+    public EnhancedJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager,
+                                 NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         super(entityInformation, entityManager);
-        this.entityManager = entityManager;
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(entityManager));
-    }
-
-    private DataSource getDataSource(EntityManager entityManager) {
-        // Hibernate SessionFactory
-        SessionFactoryImpl sf = entityManager.getEntityManagerFactory().unwrap(SessionFactoryImpl.class);
-        return ((DatasourceConnectionProviderImpl) sf.getServiceRegistry().getService(ConnectionProvider.class)).getDataSource();
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
@@ -49,8 +40,4 @@ public class EnhancedJpaRepository<T, ID extends Serializable> extends SimpleJpa
         return namedParameterJdbcTemplate.getJdbcOperations();
     }
 
-    @Override
-    public EntityManager entityManager() {
-        return entityManager;
-    }
 }

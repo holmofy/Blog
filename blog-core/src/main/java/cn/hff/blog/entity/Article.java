@@ -82,6 +82,9 @@ public class Article {
     @JsonView(Views.WithoutLob.class)
     private Boolean isDenyComment;
 
+    @JsonView(Views.WithoutLob.class)
+    private Boolean published;
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @JsonView(Views.WithLob.class)

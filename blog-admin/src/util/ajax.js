@@ -19,7 +19,7 @@ instance.interceptors.response.use((response) => {
     return response.data
 }, (err) => Promise.reject(err));
 
-function childUrl(child) {
+function path(child) {
     let baseUrl = this.url;
     if (!baseUrl) {
         this.url = child;
@@ -71,14 +71,14 @@ function put() {
 function ajax(url) {
     return {
         url,
-        childUrl: childUrl,
-        query: query,
-        payload: payload,
-        addHeader: addHeader,
-        get: get,
-        post: post,
+        path,
+        query,
+        payload,
+        addHeader,
+        get,
+        post,
         'delete': _delete_,
-        put: put
+        put
     };
 }
 

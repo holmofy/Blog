@@ -2,6 +2,8 @@ package cn.hff.blog.service.impl;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 
 import cn.hff.blog.dao.ArticleDao;
+import cn.hff.blog.dao.ArticleDao.IdAndTitle;
 import cn.hff.blog.dto.PageArticleDTO;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
@@ -55,13 +58,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<PageArticleDTO> getPage(Pageable pageable) {
+    public Page<PageArticleDTO> getPage(@Nullable Boolean published, Pageable pageable) {
         Preconditions.checkArgument(pageable.getPageSize() < 100, "一次查询不能超过100篇文章");
-        return articleDao.findAllByPage(pageable);
+        return published == null ? articleDao.findAllByPage(pageable) : articleDao.findAllByPage(published, pageable);
     }
 
     @Override
-    public List<ArticleDao.IdAndTitle> likeTitlePrefix(String titlePrefix, int size) {
+    public List<IdAndTitle> likeTitlePrefix(String titlePrefix, int size) {
         Preconditions.checkArgument(size < 100, "一次查询不能超过100篇文章");
         return articleDao.findByTitleStartingWith(titlePrefix, size);
     }

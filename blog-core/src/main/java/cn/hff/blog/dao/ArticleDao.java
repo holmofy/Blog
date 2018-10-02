@@ -25,6 +25,12 @@ public interface ArticleDao extends BaseJpaRepository<Article, Integer> {
             "on a.categoryId=c.id")
     Page<PageArticleDTO> findAllByPage(Pageable pageable);
 
+    @Query("select new cn.hff.blog.dto.PageArticleDTO(" +
+            "   a.id,a.title,a.createTime,a.updateTime,a.views,a.comments,a.categoryId,a.authorId,c.name) " +
+            "from Article a join Category c " +
+            "on a.categoryId=c.id and a.published=?1")
+    Page<PageArticleDTO> findAllByPage(boolean published, Pageable pageable);
+
     @Query(value = "SELECT id, title FROM tb_article WHERE title LIKE ?1% LIMIT ?2", nativeQuery = true)
     List<IdAndTitle> findByTitleStartingWith(String titlePrefix, int size);
 

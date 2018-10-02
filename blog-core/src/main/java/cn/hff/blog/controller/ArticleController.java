@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import cn.hff.blog.dao.ArticleDao;
 import cn.hff.blog.dao.ArticleDao.IdAndTitle;
 import cn.hff.blog.dto.PageArticleDTO;
 import cn.hff.blog.dto.Views;
@@ -66,8 +65,9 @@ public class ArticleController {
     }
 
     @GetMapping
-    public Page<PageArticleDTO> get(@PageableDefault(15) Pageable pageable) {
-        return articleService.getPage(pageable);
+    public Page<PageArticleDTO> get(@RequestParam(required = false) Boolean published,
+                                    @PageableDefault(15) Pageable pageable) {
+        return articleService.getPage(published, pageable);
     }
 
     @GetMapping("prefix")
