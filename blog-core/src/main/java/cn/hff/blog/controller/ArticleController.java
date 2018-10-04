@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import cn.hff.blog.dao.ArticleDao.IdAndTitle;
-import cn.hff.blog.dto.PageArticleDTO;
 import cn.hff.blog.dto.Views;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
@@ -65,14 +64,25 @@ public class ArticleController {
     }
 
     @GetMapping
-    public Page<PageArticleDTO> get(@RequestParam(required = false) Boolean published,
-                                    @PageableDefault(15) Pageable pageable) {
+    @JsonView(Views.WithoutLob.class)
+    public Page<Article> get(@RequestParam(required = false) Boolean published,
+                             @PageableDefault(sort = "createTime") Pageable pageable) {
         return articleService.getPage(published, pageable);
     }
 
     @GetMapping("prefix")
-    public List<IdAndTitle> likeTitlePrefix(@RequestParam String titlePrefix,
-                                            @RequestParam(defaultValue = "5") int size) {
-        return articleService.likeTitlePrefix(titlePrefix, size);
+    public List<IdAndTitle> likeTitlePrefix(@CurrentUser User user,
+                                            @RequestParam String titlePrefix,
+                                            @PageableDefault(5) Pageable pageable) {
+        return articleService.likeTitlePrefix(user.getId(), titlePrefix, pageable);
     }
+
+    @GetMapping("fuzzy-title")
+    @JsonView(Views.WithoutLob.class)
+    public Page<Article> likeFuzzyTitle(@CurrentUser User user,
+                                        @RequestParam String fuzzyTitle,
+                                        @PageableDefault(sort = "createTime") Pageable pageable) {
+        return articleService.likeFuzzyTitle(user.getId(), fuzzyTitle, pageable);
+    }
+
 }

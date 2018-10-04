@@ -1,10 +1,12 @@
 package cn.hff.blog.config;
 
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import cn.hff.blog.dao.EnhancedJpaRepository;
+import cn.hff.blog.common.EnhancedJpaRepository;
 
 /**
  * 数据库与事务相关配置
@@ -13,6 +15,7 @@ import cn.hff.blog.dao.EnhancedJpaRepository;
  */
 @Configuration
 @EnableJpaAuditing
+@AutoConfigureAfter(JdbcTemplateAutoConfiguration.class)
 @EnableJpaRepositories(
         basePackages = "cn.hff.blog.dao",
         repositoryBaseClass = EnhancedJpaRepository.class

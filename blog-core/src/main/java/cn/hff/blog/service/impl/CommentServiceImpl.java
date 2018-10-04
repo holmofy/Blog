@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import cn.hff.blog.dao.CommentDao;
 import cn.hff.blog.entity.Comment;
 import cn.hff.blog.entity.User;
-import cn.hff.blog.exception.NotFoundException;
 import cn.hff.blog.service.CommentService;
 
 @Service
@@ -19,7 +18,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Page<Comment> listComments(int articleId, Pageable pageable) {
-        return commentDao.findAllByArticleId(articleId, pageable);
+        return commentDao.findByArticleId(articleId, pageable);
     }
 
     @Override

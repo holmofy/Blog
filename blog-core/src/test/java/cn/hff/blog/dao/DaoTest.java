@@ -6,29 +6,38 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.common.collect.Iterators;
 
-import cn.hff.blog.dto.PageArticleDTO;
+import cn.hff.blog.config.DBConfig;
+import cn.hff.blog.dao.ArticleDao.IdAndTitle;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.Category;
 import cn.hff.blog.entity.Comment;
 
 /**
  * 数据访问层测试用例，主要看IPV4地址是否保存成功
- * <p>
- * Created by Holmofy on 2018/6/18.
+ *
+ * @author Holmofy
  */
 @DataJpaTest
+@ImportAutoConfiguration(DBConfig.class)
 @RunWith(SpringRunner.class)
 public class DaoTest {
 
     @Autowired
     private CommentDao commentDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private ArticleDao articleDao;
 
     @Test
     public void testCommentDao() {
@@ -40,9 +49,6 @@ public class DaoTest {
         Assert.assertEquals(save.getArticleId().intValue(), 10);
     }
 
-    @Autowired
-    private CategoryDao categoryDao;
-
     @Test
     public void testCategoryDao() {
         Category category = new Category();
@@ -51,9 +57,6 @@ public class DaoTest {
         String name = categoryDao.getNameById(save.getId());
         Assert.assertEquals(name, "分类一");
     }
-
-    @Autowired
-    private ArticleDao articleDao;
 
     @Test
     public void testArticleDao() {
@@ -73,18 +76,8 @@ public class DaoTest {
         article.setTitle("标题ABC...");
         Article save = articleDao.save(article);
         Assert.assertNotNull(save);
-        List<ArticleDao.IdAndTitle> articles = articleDao.findByTitleStartingWith("标题", 10);
+        List<IdAndTitle> articles = articleDao.findByAuthorIdAndTitleStartsWith(10, "标题", PageRequest.of(0, 10));
         Assert.assertEquals(articles.size(), 1);
         Assert.assertEquals(Iterators.getLast(articles.iterator()).getTitle(), "标题ABC...");
-    }
-
-    @Test
-    public void testPageArticle() {
-        categoryDao.save(Category.builder().name("类别一").parentId(0).build());
-        articleDao.save(Article.builder().authorId(10).categoryId(1).title("标题一").content("内容1").build());
-        articleDao.save(Article.builder().authorId(10).categoryId(1).title("标题二").content("内容2").build());
-        Page<PageArticleDTO> dtos = articleDao.findAllByPage(PageRequest.of(0, 10));
-        // 前面的单元测试可能已经在内存数据库中插入过数据
-        Assert.assertTrue(dtos.getSize() >= 2);
     }
 }

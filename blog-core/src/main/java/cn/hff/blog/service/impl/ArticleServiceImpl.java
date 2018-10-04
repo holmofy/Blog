@@ -13,7 +13,6 @@ import com.google.common.base.Preconditions;
 
 import cn.hff.blog.dao.ArticleDao;
 import cn.hff.blog.dao.ArticleDao.IdAndTitle;
-import cn.hff.blog.dto.PageArticleDTO;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
 import cn.hff.blog.exception.NotFoundException;
@@ -58,14 +57,24 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<PageArticleDTO> getPage(@Nullable Boolean published, Pageable pageable) {
-        Preconditions.checkArgument(pageable.getPageSize() < 100, "一次查询不能超过100篇文章");
-        return published == null ? articleDao.findAllByPage(pageable) : articleDao.findAllByPage(published, pageable);
+    public Page<Article> getPage(@Nullable Boolean published, Pageable pageable) {
+        checkPageable(pageable);
+        return published == null ? articleDao.findAll(pageable) : articleDao.findByPublished(published, pageable);
     }
 
     @Override
-    public List<IdAndTitle> likeTitlePrefix(String titlePrefix, int size) {
-        Preconditions.checkArgument(size < 100, "一次查询不能超过100篇文章");
-        return articleDao.findByTitleStartingWith(titlePrefix, size);
+    public List<IdAndTitle> likeTitlePrefix(int userId, String titlePrefix, Pageable pageable) {
+        checkPageable(pageable);
+        return articleDao.findByAuthorIdAndTitleStartsWith(userId, titlePrefix, pageable);
+    }
+
+    @Override
+    public Page<Article> likeFuzzyTitle(int userId, String fuzzyTitle, Pageable pageable) {
+        checkPageable(pageable);
+        return articleDao.findByAuthorIdAndTitleLike(userId, "%" + fuzzyTitle + "%", pageable);
+    }
+
+    private void checkPageable(Pageable pageable) {
+        Preconditions.checkArgument(pageable.getPageSize() < 100, "一次查询不能超过100篇文章");
     }
 }

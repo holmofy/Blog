@@ -1,17 +1,18 @@
 package cn.hff.blog.dao;
 
-import cn.hff.blog.entity.User;
+import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
+import cn.hff.blog.common.BaseJpaRepository;
+import cn.hff.blog.entity.User;
 
 /**
  * {@link User}的数据访问层
- * <p>
- * Created by Holmofy on 2018/6/18.
+ *
+ * @author Holmofy
  */
 public interface UserDao extends BaseJpaRepository<User, Integer> {
 

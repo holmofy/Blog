@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
 
 /**
  * 用户实体类
- * <p>
- * Created by Holmofy on 2018/6/18.
+ *
+ * @author Holmofy
  */
 @Data
 @Builder
@@ -45,7 +45,7 @@ public class User {
     @NotNull(message = "用户名不能为空")
     @Column(name = "user_name")
     @JsonView(Views.Public.class)
-    private String userName;
+    private String username;
 
     @Column(unique = true)
     @JsonView(Views.Public.class)
@@ -64,20 +64,16 @@ public class User {
     private String password;
 
     @JsonView(Views.Public.class)
-    @Column(name = "nick_name")
     private String nickName;
 
     @JsonView(Views.Public.class)
     @CreatedDate
-    @Column(name = "create_time")
     private LocalDateTime createTime;
 
     @JsonView(Views.Public.class)
     @LastModifiedDate
-    @Column(name = "update_time")
     private LocalDateTime updateTime;
 
     @JsonView(Views.Public.class)
-    @Column(name = "last_login_time")
     private LocalDateTime lastLoginTime;
 }

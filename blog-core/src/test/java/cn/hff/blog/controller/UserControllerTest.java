@@ -1,5 +1,6 @@
 package cn.hff.blog.controller;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,13 @@ public class UserControllerTest {
     @Autowired
     private UserService userService;
 
+    private User user;
+
+    @Before
+    public void setup() {
+        user = User.builder().username("holmofy").password("123456").build();
+    }
+
     /**
      * 这里保存holmofy用户到内存数据库中会影响其他单元测试，
      * 所以@DirtiesContext让它重新加载上下文
@@ -50,25 +58,24 @@ public class UserControllerTest {
     @Test
     @DirtiesContext
     public void testRegister() throws Exception {
-        User user = User.builder().userName("holmofy").password("123456").build();
         mockMvc.perform(post("/api/user")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json.write(user).getJson()))
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.userName").value("holmofy"))
+                .andExpect(jsonPath("$.username").value("holmofy"))
                 .andExpect(jsonPath("$.password").doesNotExist());
     }
 
     @Test
     @DirtiesContext
     public void testLogin() throws Exception {
-        User user = userService.register(User.builder().userName("holmofy").password("123456").build());
-        mockMvc.perform(post("/api/user/login")
+        User register = userService.register(user);
+        mockMvc.perform(post("/api/session")
                 .param("principal", "holmofy")
                 .param("credential", "123456"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(request().sessionAttribute(Constants.LOGIN_USER_SESSION_KEY, user))
-                .andExpect(jsonPath("$.userName").value("holmofy"))
+                .andExpect(request().sessionAttribute(Constants.LOGIN_USER_SESSION_KEY, register))
+                .andExpect(jsonPath("$.username").value("holmofy"))
                 .andExpect(jsonPath("$.password").doesNotExist());
     }
 }

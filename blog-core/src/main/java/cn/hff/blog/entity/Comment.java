@@ -3,7 +3,6 @@ package cn.hff.blog.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -21,8 +20,8 @@ import lombok.Data;
 
 /**
  * 文章评论实体类
- * <p>
- * Created by Holmofy on 2018/6/18.
+ *
+ * @author Holmofy
  */
 @Data
 @Entity
@@ -35,10 +34,8 @@ public class Comment {
     private Integer id;
 
     @NotNull
-    @Column(name = "article_id", nullable = false)
     private Integer articleId;
 
-    @Column(name = "reply_id")
     private Integer replyId;
 
     private String name;
@@ -54,7 +51,6 @@ public class Comment {
     private Integer disagree;
 
     @CreatedDate
-    @Column(name = "create_time")
     private LocalDateTime createTime;
 
     @Lob

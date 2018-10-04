@@ -1,13 +1,14 @@
 package cn.hff.blog.dao;
 
-import cn.hff.blog.entity.Category;
-
 import org.springframework.data.jpa.repository.Query;
+
+import cn.hff.blog.common.BaseJpaRepository;
+import cn.hff.blog.entity.Category;
 
 /**
  * {@link Category}的数据访问对象
- * <p>
- * Created by Holmofy on 2018/6/18.
+ *
+ * @author Holmofy
  */
 public interface CategoryDao extends BaseJpaRepository<Category, Integer> {
 

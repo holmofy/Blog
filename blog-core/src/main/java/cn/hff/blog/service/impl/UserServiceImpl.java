@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         } else if (RegexUtil.isPhone(principal)) {
             example = User.builder().phone(principal).password(encryptedCredential).build();
         } else {
-            example = User.builder().userName(principal).password(encryptedCredential).build();
+            example = User.builder().username(principal).password(encryptedCredential).build();
         }
         User loginUser = userDao.findOne(Example.of(example)).orElseThrow(AuthenticationException::new);
         userDao.updateLastLoginTime(loginUser.getId(), LocalDateTime.now());

@@ -1,18 +1,17 @@
-package cn.hff.blog.dao;
+package cn.hff.blog.common;
 
 import java.io.Serializable;
 import java.util.Collection;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.transaction.annotation.Transactional;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -25,18 +24,20 @@ import static org.springframework.util.ObjectUtils.isEmpty;
  * @param <ID> ID Type
  * @author Holmofy
  * @see Specification
- * @see Specifications
- * @see CriteriaBuilder
+ * @see org.springframework.data.jpa.domain.Specifications
+ * @see javax.persistence.criteria.CriteriaBuilder
  * @see org.hibernate.Criteria
  * @see org.hibernate.criterion.Restrictions
  * @see org.hibernate.jpa.criteria.CriteriaBuilderImpl
  */
+@Transactional
 @NoRepositoryBean
-public interface BaseJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+public interface BaseJpaRepository<T, ID extends Serializable>
+        extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
-    NamedParameterJdbcOperations namedParameterJdbcTemplate();
+    NamedParameterJdbcOperations getNamedParameterJdbcTemplate();
 
-    JdbcOperations jdbcTemplate();
+    JdbcOperations getJdbcTemplate();
 
     static <T, V extends Comparable<? super V>> Specification<T> isNull(SingularAttribute<T, V> attr) {
         return (root, query, cb) -> cb.isNull(root.get(attr));

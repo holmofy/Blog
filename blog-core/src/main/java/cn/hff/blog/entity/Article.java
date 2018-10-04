@@ -3,7 +3,6 @@ package cn.hff.blog.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -22,20 +21,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import cn.hff.blog.dto.Views;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 文章实体类
- * <p>
- * Created by Holmofy on 2018/6/18.
+ *
+ * @author Holmofy
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tb_article")
 @EntityListeners(AuditingEntityListener.class)
@@ -52,12 +45,10 @@ public class Article {
     private String title;
 
     @CreatedDate
-    @Column(name = "create_time")
     @JsonView(Views.WithoutLob.class)
     private LocalDateTime createTime;
 
     @LastModifiedDate
-    @Column(name = "update_time")
     @JsonView(Views.WithoutLob.class)
     private LocalDateTime updateTime;
 
@@ -70,15 +61,12 @@ public class Article {
     @JsonView(Views.WithoutLob.class)
     private Integer comments;
 
-    @Column(name = "category_id")
     @JsonView(Views.WithoutLob.class)
     private Integer categoryId;
 
-    @Column(name = "author_id")
     @JsonView(Views.WithoutLob.class)
     private Integer authorId;
 
-    @Column(name = "is_deny_comment")
     @JsonView(Views.WithoutLob.class)
     private Boolean isDenyComment;
 
