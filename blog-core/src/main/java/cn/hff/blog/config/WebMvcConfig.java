@@ -13,6 +13,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -45,6 +46,8 @@ public class WebMvcConfig implements WebMvcConfigurer,
     @Override
     public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
         jacksonObjectMapperBuilder.modules(customizeJackson2JavaTimeModule());
+        // 后端的Long传到前端的number可能会丢精度，这里全部转成String类型
+        jacksonObjectMapperBuilder.serializerByType(Long.class, new ToStringSerializer(Long.class));
     }
 
     private SimpleModule customizeJackson2JavaTimeModule() {

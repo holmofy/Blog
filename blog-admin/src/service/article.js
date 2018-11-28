@@ -13,3 +13,5 @@ export const updateArticle = (id, article) => ajax(path).path(id).payload(articl
 export const deleteArticle = (id) => ajax(path).path(id).delete();
 
 export const likeTitlePrefix = (titlePrefix, size) => ajax(path).path("prefix").query({titlePrefix, size}).get();
+
+export const likeFuzzyTitle = (fuzzyTitle, size) => ajax(path).path("fuzzy-title").query({fuzzyTitle, size}).get();
