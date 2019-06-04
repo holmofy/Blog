@@ -19,67 +19,60 @@ instance.interceptors.response.use((response) => {
     return response.data
 }, (err) => Promise.reject(err));
 
-function path(child) {
-    let baseUrl = this.url;
-    if (!baseUrl) {
-        this.url = child;
+class Ajax {
+    constructor(url) {
+        this.url = url;
+    }
+
+    path(child) {
+        let baseUrl = this.url;
+        if (!baseUrl) {
+            this.url = child;
+            return this;
+        }
+        if (_.last(baseUrl) === '/') {
+            baseUrl = baseUrl.slice(0, -1);
+        }
+        this.url = _.head(child) === '/' ? baseUrl + child : baseUrl + '/' + child;
         return this;
     }
-    if (_.last(baseUrl) === '/') {
-        baseUrl = baseUrl.slice(0, -1);
+
+    query(queryObj) {
+        this.params = queryObj;
+        return this;
     }
-    this.url = _.head(child) === '/' ? baseUrl + child : baseUrl + '/' + child;
-    return this;
+
+    payload(payload) {
+        this.data = payload;
+        return this;
+    }
+
+    addHeader(key, value) {
+        this.headers = _.assign(this.headers, {[key]: value});
+        return this;
+    }
+
+    get() {
+        this.method = "get";
+        return instance.request(this);
+    }
+
+    post() {
+        this.method = "post";
+        return instance.request(this);
+    }
+
+    delete() {
+        this.method = "delete";
+        return instance.request(this);
+    }
+
+    put() {
+        this.method = "put";
+        return instance.request(this);
+    }
 }
 
-function query(queryObj) {
-    this.params = queryObj;
-    return this;
+export default function ajax(url) {
+    return new Ajax(url);
 }
-
-function payload(payload) {
-    this.data = payload;
-    return this;
-}
-
-function addHeader(key, value) {
-    this.headers = _.assign(this.headers, {[key]: value});
-    return this;
-}
-
-function get() {
-    this.method = "get";
-    return instance.request(this);
-}
-
-function post() {
-    this.method = "post";
-    return instance.request(this);
-}
-
-function _delete_() {
-    this.method = "delete";
-    return instance.request(this);
-}
-
-function put() {
-    this.method = "put";
-    return instance.request(this);
-}
-
-
-function ajax(url) {
-    return {
-        url,
-        path,
-        query,
-        payload,
-        addHeader,
-        get,
-        post,
-        'delete': _delete_,
-        put
-    };
-}
-
-export default ajax;

@@ -67,13 +67,14 @@ module.exports = {
             service: path.resolve(__dirname, "src/service"),
             layout: path.resolve(__dirname, "src/layout"),
             common: path.resolve(__dirname, "src/common"),
+            ui: path.resolve(__dirname, "src/ui"),
             config$: path.resolve(__dirname, "src/config.js")
         }
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: "开发",
+            title: "开发中...",
             template: "./public/index.html"
-        })
+        }),
     ]
 };

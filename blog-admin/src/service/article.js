@@ -25,3 +25,7 @@ export function deleteArticle(id) {
 export function likeTitlePrefix(titlePrefix, size) {
     return ajax(path).path("prefix").query({titlePrefix, size}).get();
 }
+
+export function likeFuzzyTitle(fuzzyTitle, size) {
+    return ajax(path).path("fuzzy-title").query({fuzzyTitle, size}).get();
+}
