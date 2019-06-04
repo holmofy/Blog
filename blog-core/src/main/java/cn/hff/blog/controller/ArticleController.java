@@ -66,7 +66,7 @@ public class ArticleController {
     @GetMapping
     @JsonView(Views.WithoutLob.class)
     public Page<Article> get(@RequestParam(required = false) Boolean published,
-                             @PageableDefault(sort = "createTime") Pageable pageable) {
+                             @PageableDefault(sort = "created") Pageable pageable) {
         return articleService.getPage(published, pageable);
     }
 
@@ -81,7 +81,7 @@ public class ArticleController {
     @JsonView(Views.WithoutLob.class)
     public Page<Article> likeFuzzyTitle(@CurrentUser User user,
                                         @RequestParam String fuzzyTitle,
-                                        @PageableDefault(sort = "createTime") Pageable pageable) {
+                                        @PageableDefault(sort = "created") Pageable pageable) {
         return articleService.likeFuzzyTitle(user.getId(), fuzzyTitle, pageable);
     }
 

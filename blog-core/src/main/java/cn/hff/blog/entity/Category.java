@@ -35,8 +35,8 @@ public class Category {
     private Integer parentId;
 
     @CreatedDate
-    private LocalDateTime createTime;
+    private LocalDateTime created;
 
     @LastModifiedDate
-    private LocalDateTime updateTime;
+    private LocalDateTime modified;
 }

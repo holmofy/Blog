@@ -7,61 +7,62 @@ import css from "./App.css";
 
 const {Header, Sider, Content, Footer} = Layout;
 
-const RouteContent = () => {
-    return (
-        <Switch>
-            <Route path="/" exact component={DashboardPage}/>
-            <Route path="/article" component={ArticleList}/>
-        </Switch>
-    );
-};
-
-const Sidebar = ({collapsed}) => {
+const Sidebar = ({location, collapsed}) => {
+    console.log(location)
     return (
         <Sider trigger={null} collapsible collapsed={collapsed}>
-            <div className="logo"/>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                <Menu.Item key="1">
+            <Menu selectedKeys={[location.pathname]} defaultSelectedKeys={['1']}
+                  theme="dark" mode="inline">
+                <Menu.Item key="/dashboard">
                     <Icon type="dashboard"/>
-                    <span>面板</span>
-                    <NavLink to="/"/>
+                    <span>dashboard</span>
+                    <NavLink to="/dashboard"/>
                 </Menu.Item>
-                <Menu.Item key="2">
+                <Menu.Item key="/article">
                     <Icon type="form"/>
-                    <span>文章</span>
+                    <span>article</span>
                     <NavLink to="/article"/>
                 </Menu.Item>
-                <Menu.Item key="3">
+                <Menu.Item key="/tmp">
                     <Icon type="upload"/>
                     <span>nav 3</span>
+                    <NavLink to="/tmp"/>
                 </Menu.Item>
             </Menu>
         </Sider>
     );
 };
 
-export default class App extends React.Component {
+class Root extends React.Component {
 
     state = {collapsed: false};
 
-    toggle = () => this.setState({collapsed: !this.state.collapsed});
+    toggle = () => this.setState(({collapsed}) => ({collapsed: !collapsed}));
 
     render() {
         return (
-            <Router>
+            <Layout>
+                <Sidebar location={this.props.location}
+                         collapsed={this.state.collapsed}/>
                 <Layout>
-                    <Sidebar collapsed={this.state.collapsed}/>
-                    <Layout>
-                        <Header className={css.header}>
-                            <Icon className="trigger" onClick={this.toggle}
-                                  type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}/>
-                        </Header>
-                        <Content className={css.content}><RouteContent/></Content>
-                        {/*<Footer>赣ICP备17009276号 &copy; 2016 - 2018 power by 胡飞飞</Footer>*/}
-                    </Layout>
+                    <Header className={css.header}>
+                        <Icon className="trigger" onClick={this.toggle}
+                              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}/>
+                    </Header>
+                    <Content className={css.content}>
+                        <Switch>
+                            <Route path="/dashboard" exact component={DashboardPage}/>
+                            <Route path="/article" component={ArticleList}/>
+                        </Switch>
+                    </Content>
+                    {/*<Footer>赣ICP备17009276号 &copy; 2016 - 2018 power by 胡飞飞</Footer>*/}
                 </Layout>
-            </Router>
+            </Layout>
         );
     }
 }
+
+const App = () => <Router><Route path="/" component={Root}/></Router>;
+
+export default App;
 

@@ -18,25 +18,25 @@ public class Views {
     /**
      * 公开字段
      */
-    public static interface Public {
+    public interface Public {
     }
 
     /**
      * 内部字段
      */
-    public static interface Internal extends Public {
+    public interface Internal extends Public {
     }
 
     /**
      * 不带大文本的字段
      */
-    public static interface WithoutLob {
+    public interface WithoutLob {
     }
 
     /**
      * 带大文本的字段
      */
-    public static interface WithLob extends WithoutLob {
+    public interface WithLob extends WithoutLob {
     }
 
 }

@@ -22,8 +22,8 @@ DROP TABLE IF EXISTS `tb_article`;
 CREATE TABLE `tb_article` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL COMMENT '标题',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `created` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `views` int(10) NOT NULL DEFAULT '0' COMMENT '查看量',
   `category_id` int(10) DEFAULT NULL COMMENT '文章分类',
   `author_id` int(10) NOT NULL COMMENT '作者',
@@ -40,8 +40,8 @@ CREATE TABLE `tb_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '分类名',
   `parent_id` int(11) DEFAULT '0' COMMENT '父分类，可构成一个分类树，树根parent_id为0',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `created` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -59,7 +59,7 @@ CREATE TABLE `tb_comment` (
   `website` varchar(255) DEFAULT NULL COMMENT '评论人网站',
   `agree` int(10) DEFAULT '0' COMMENT '赞同数',
   `disagree` int(10) DEFAULT '0' COMMENT '不赞同数',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '评论时间',
+  `created` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '评论时间',
   `content` text COMMENT '评论内容',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -73,7 +73,7 @@ CREATE TABLE `tb_user` (
   `user_name` varchar(48) NOT NULL,
   `passwd_md5` varchar(48) DEFAULT NULL,
   `nick_name` varchar(48) DEFAULT NULL,
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

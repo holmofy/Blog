@@ -12,6 +12,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -45,6 +46,7 @@ public class WebMvcConfig implements WebMvcConfigurer,
     @Override
     public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
         jacksonObjectMapperBuilder.modules(customizeJackson2JavaTimeModule());
+        jacksonObjectMapperBuilder.featuresToEnable(MapperFeature.DEFAULT_VIEW_INCLUSION);
     }
 
     private SimpleModule customizeJackson2JavaTimeModule() {

@@ -46,11 +46,11 @@ public class Article {
 
     @CreatedDate
     @JsonView(Views.WithoutLob.class)
-    private LocalDateTime createTime;
+    private LocalDateTime created;
 
     @LastModifiedDate
     @JsonView(Views.WithoutLob.class)
-    private LocalDateTime updateTime;
+    private LocalDateTime modified;
 
     @JsonView(Views.WithoutLob.class)
     private Integer views;

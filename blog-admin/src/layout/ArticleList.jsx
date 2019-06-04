@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {getArticles} from "service/article.js";
 import {Card, Spin} from "antd";
 import _ from "lodash";
 import css from "./ArticleList.css";
 
 const ArticleItem = ({item}) => {
-    let {id, title, createTime, updateTime, views, comments, categoryName} = item;
+    const {id, title, created, modified, views, comments, categoryName} = item;
     return (
         <div key={id} className={css.article}>
-            <h2>{title}<sub>{updateTime}</sub></h2>
+            <h3>{title}<sub>{modified}</sub></h3>
             <p>{views}</p>
         </div>
     );
@@ -16,7 +16,7 @@ const ArticleItem = ({item}) => {
 
 const tabList = [{key: true, tab: "post"}, {key: false, tab: "draft"}];
 
-export class ArticleList extends React.Component {
+export class ArticleList extends Component {
 
     state = {};
 
@@ -24,23 +24,23 @@ export class ArticleList extends React.Component {
         this.fetchData(true);
     }
 
-    fetchData(published, page) {
-        let {size} = this.state;
+    async fetchData(published, page) {
+        const {size} = this.state;
         this.setState({loading: true});
-        getArticles(published, page, size).then((data) => this.setState({data, loading: false}));
+        const data = await getArticles(published, page, size);
+        this.setState({data, loading: false});
     }
 
-    onTabChange(published) {
+    onTabChange = (published) => {
         this.fetchData(published, 1);
-    }
+    };
 
     render() {
-        let {data = {}} = this.state;
-        let {content} = data;
-        console.log(data);
+        const {loading, data = {}} = this.state;
+        const {content} = data;
         return (
-            <Card tabList={tabList} onTabChange={(key) => this.onTabChange(key)}>
-                <Spin spinning={this.state.loading} tip="Loading...">
+            <Card tabList={tabList} onTabChange={this.onTabChange}>
+                <Spin spinning={loading} tip="Loading...">
                     {_.map(content, item => <ArticleItem key={item.id} item={item}/>)}
                 </Spin>
             </Card>

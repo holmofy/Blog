@@ -1,6 +1,29 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+function babelOptions() {
+    return {
+        "presets": [
+            "@babel/react",
+            [
+                "@babel/env",
+                {
+                    "targets": {
+                        "chrome": "58",
+                        "ie": "11"
+                    },
+                    "debug": true
+                }
+            ]
+        ],
+        "plugins": [
+            "@babel/plugin-proposal-class-properties",
+            ["@babel/plugin-proposal-decorators", {decoratorsBeforeExport: true}],
+            ["@babel/plugin-transform-runtime"]
+        ]
+    };
+}
+
 module.exports = {
     entry: './src/index.js',
     output: {
@@ -9,7 +32,12 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist',
-        port: 3000
+        port: 3000,
+        historyApiFallback: {
+            rewrites: [
+                {from: /^\/$/, to: '/'}
+            ]
+        },
     },
     module: {
         rules: [{
@@ -17,9 +45,7 @@ module.exports = {
             include: path.resolve(__dirname, 'src'),
             use: {
                 loader: 'babel-loader',
-                options: {
-                    "presets": ["react", "env", "stage-0"]
-                }
+                options: babelOptions()
             }
         }, {
             test: /\.css$/,

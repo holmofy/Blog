@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -33,7 +34,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_user")
+@Table(name = "tb_user", uniqueConstraints = {
+        @UniqueConstraint(name = "uniq_email", columnNames = "email"),
+        @UniqueConstraint(name = "uniq_phone", columnNames = "phone")
+})
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
@@ -47,11 +51,11 @@ public class User {
     @JsonView(Views.Public.class)
     private String username;
 
-    @Column(unique = true)
+    @Column
     @JsonView(Views.Public.class)
     private String email;
 
-    @Column(unique = true)
+    @Column
     @JsonView(Views.Public.class)
     private String phone;
 
@@ -68,11 +72,11 @@ public class User {
 
     @JsonView(Views.Public.class)
     @CreatedDate
-    private LocalDateTime createTime;
+    private LocalDateTime created;
 
     @JsonView(Views.Public.class)
     @LastModifiedDate
-    private LocalDateTime updateTime;
+    private LocalDateTime modified;
 
     @JsonView(Views.Public.class)
     private LocalDateTime lastLoginTime;
