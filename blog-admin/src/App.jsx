@@ -1,29 +1,33 @@
-import React from "react";
-import {BrowserRouter as Router, NavLink, Route, Switch} from "react-router-dom";
-import {DashboardPage} from "./layout/DashboardPage.jsx";
-import {ArticleList} from "./layout/ArticleList.jsx";
+import React, {Component} from "react";
+import {BrowserRouter as Router, NavLink, Redirect, Route, Switch} from "react-router-dom";
+import {DashboardPage} from "layout/DashboardPage.jsx";
+import {ArticleList} from "layout/ArticleList.jsx";
 import {Icon, Layout, Menu} from "antd";
+import commonCss from "common/common.css";
 import css from "./App.css";
+import _ from "lodash";
+import LoginPage from "layout/LoginPage.jsx";
+import {Copyright} from "ui";
 
 const {Header, Sider, Content, Footer} = Layout;
 
 const Sidebar = ({location, collapsed}) => {
-    console.log(location)
+    const path = _.chain(location.pathname).split("/").get(1).value();
     return (
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-            <Menu selectedKeys={[location.pathname]} defaultSelectedKeys={['1']}
+        <Sider trigger={null} collapsible collapsed={collapsed} className={commonCss.fullHeight}>
+            <Menu selectedKeys={[path || "dashboard"]}
                   theme="dark" mode="inline">
-                <Menu.Item key="/dashboard">
+                <Menu.Item key="dashboard">
                     <Icon type="dashboard"/>
                     <span>dashboard</span>
                     <NavLink to="/dashboard"/>
                 </Menu.Item>
-                <Menu.Item key="/article">
+                <Menu.Item key="article">
                     <Icon type="form"/>
                     <span>article</span>
                     <NavLink to="/article"/>
                 </Menu.Item>
-                <Menu.Item key="/tmp">
+                <Menu.Item key="tmp">
                     <Icon type="upload"/>
                     <span>nav 3</span>
                     <NavLink to="/tmp"/>
@@ -33,7 +37,7 @@ const Sidebar = ({location, collapsed}) => {
     );
 };
 
-class Root extends React.Component {
+class Root extends Component {
 
     state = {collapsed: false};
 
@@ -41,7 +45,7 @@ class Root extends React.Component {
 
     render() {
         return (
-            <Layout>
+            <Layout style={{minWidth: 740}}>
                 <Sidebar location={this.props.location}
                          collapsed={this.state.collapsed}/>
                 <Layout>
@@ -51,18 +55,28 @@ class Root extends React.Component {
                     </Header>
                     <Content className={css.content}>
                         <Switch>
-                            <Route path="/dashboard" exact component={DashboardPage}/>
+                            <Route path="/" exact render={() => <Redirect to="/dashboard"/>}/>
+                            <Route path="/dashboard" component={DashboardPage}/>
                             <Route path="/article" component={ArticleList}/>
                         </Switch>
                     </Content>
-                    {/*<Footer>赣ICP备17009276号 &copy; 2016 - 2018 power by 胡飞飞</Footer>*/}
+                    <Footer><Copyright/></Footer>
                 </Layout>
             </Layout>
         );
     }
 }
 
-const App = () => <Router><Route path="/" component={Root}/></Router>;
-
-export default App;
+export default class App extends Component {
+    render() {
+        return (
+            <Router>
+                <Switch>
+                    <Route path="/login" component={LoginPage}/>
+                    <Route path="/" component={Root}/>
+                </Switch>
+            </Router>
+        );
+    }
+};
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, Fragment} from 'react';
 import {deleteArticle, getArticles, likeFuzzyTitle, likeTitlePrefix} from "service/article.js";
 import {AutoComplete, Card, Icon, Input, List, message, Modal, Select} from "antd";
 import css from "./ArticleList.css";
@@ -46,9 +46,18 @@ const SearchForm = ({dataSource, onCompleteSearch, onSearch}) => {
     );
 };
 
+const CardExtra = ({searchSuggest, onCompleteSearch, onSearch}) => (
+    <Fragment>
+        <Icon />
+        <SearchForm dataSource={searchSuggest}
+                    onCompleteSearch={onCompleteSearch}
+                    onSearch={onSearch}/>
+    </Fragment>
+);
+
 const tabList = [{key: true, tab: "已发表"}, {key: false, tab: "草稿箱"}];
 
-export class ArticleList extends React.Component {
+export class ArticleList extends Component {
 
     state = {};
 
@@ -56,9 +65,10 @@ export class ArticleList extends React.Component {
         this.fetchData(true);
     }
 
-    fetchData(published, page, size) {
+    async fetchData(published, page, size) {
         this.setState({loading: true});
-        getArticles(published, page, size).then((data) => this.setState({data, loading: false}));
+        const data = await getArticles(published, page, size);
+        this.setState({data, loading: false});
     }
 
     handleTabChange = (published) => {
@@ -96,9 +106,9 @@ export class ArticleList extends React.Component {
         console.log(searchSuggest);
         return (
             <Card title="文章列表" tabList={tabList} onTabChange={this.handleTabChange}
-                  extra={<SearchForm dataSource={searchSuggest}
-                                     onCompleteSearch={this.handleCompleteSearch}
-                                     onSearch={this.handleSearch}/>}>
+                  extra={<CardExtra searchSuggest={searchSuggest}
+                                    onSearch={this.handleSearch}
+                                    onCompleteSearch={this.handleCompleteSearch}/>}>
                 <List dataSource={content}
                       loading={this.state.loading}
                       renderItem={item => <ArticleItem key={item.id} item={item}
