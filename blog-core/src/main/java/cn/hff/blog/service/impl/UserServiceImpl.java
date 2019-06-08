@@ -5,10 +5,13 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import cn.hff.blog.common.Constants;
+import cn.hff.blog.dao.AuditLogDao;
 import cn.hff.blog.dao.UserDao;
+import cn.hff.blog.entity.AuditLog;
 import cn.hff.blog.entity.User;
 import cn.hff.blog.exception.AuthenticationException;
 import cn.hff.blog.mvc.WebMvcUtils;
@@ -21,16 +24,22 @@ import cn.hff.blog.util.RegexUtil;
  * Created by Holmofy on 2018/6/21.
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private AuditLogDao auditLogDao;
+
     @Override
     public User register(User user) {
         String encryptPassword = hashEncrypt(user.getPassword());
         user.setPassword(encryptPassword);
-        return userDao.save(user);
+        user = userDao.save(user);
+        auditLogDao.save(AuditLog.create(user.getId(), "用户注册成功"));
+        return user;
     }
 
     private static final String salt = "LMbFvdCzTf7In1bJ";

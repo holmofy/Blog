@@ -27,7 +27,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article save(User user, Article article) {
+        Preconditions.checkArgument(article.getId() == null, "新建文章不允许带ID");
         article.setAuthorId(user.getId());
+        article.setPublished(false);
         return articleDao.save(article);
     }
 

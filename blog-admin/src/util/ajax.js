@@ -1,6 +1,6 @@
 import axios from 'axios';
 import _ from "lodash";
-import config from "config";
+import {push} from "util/router.js";
 
 /**
  * Axios相关配置
@@ -9,13 +9,15 @@ import config from "config";
 
 /* Creating an instance */
 const instance = axios.create({
-    baseURL: config.server.path, // 本地做反向代理
     timeout: 5000,
     responseType: 'json',
-    // withCredentials: true, // 是否允许带cookie这些
+    withCredentials: true, // 是否允许带cookie这些
 });
 
 instance.interceptors.response.use((response) => {
+    if (response.status === 401) {
+        push("/login");
+    }
     return response.data
 }, (err) => Promise.reject(err));
 

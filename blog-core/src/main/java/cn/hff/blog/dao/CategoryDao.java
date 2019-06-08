@@ -1,5 +1,7 @@
 package cn.hff.blog.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 
 import cn.hff.blog.common.BaseJpaRepository;
@@ -16,4 +18,5 @@ public interface CategoryDao extends BaseJpaRepository<Category, Integer> {
     @Query("select name from Category where id=?1")
     String getNameById(Integer categoryId);
 
+    List<Category> findByUserId(int userId);
 }

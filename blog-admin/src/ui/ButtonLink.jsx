@@ -1,28 +1,28 @@
 import React from "react";
-import _ from "lodash";
 import classNames from "classnames";
-import commonColor from "common/color.css";
+import commonCss from "common/common.less";
+import {push} from "util/router.js";
 
 export class ButtonLink extends React.Component {
 
-    onClick(e) {
-        let {url, disabled, query, onClick} = this.props;
+    onClick = (e) => {
+        let {url, disabled, query, onClick, history} = this.props;
         if (disabled) {
             return;
         }
         if (onClick) {
             onClick(e);
         } else if (url) {
+            push(url, query);
         }
-    }
+    };
 
     render() {
         let {value, className, disabled, children} = this.props;
-        let props = _.omit(this.props, ['value', 'className', 'disabled', 'children', 'onClick']);
         return (
-            <a className={classNames(className, disabled ? commonColor.grey : '')}
+            <a className={classNames(className, disabled ? commonCss.darkGrey : '')}
                href="javascript:void(0)"
-               onClick={(e) => this.onClick(e)} {...props}>{value || children}</a>
+               onClick={this.onClick}>{value || children}</a>
         );
     }
 

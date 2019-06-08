@@ -1,15 +1,21 @@
 import React from "react";
 import {Pagination} from "antd";
-import _ from "lodash";
+
+export const pageableToPagination = (pageable) => {
+    if (!pageable) {
+        return {};
+    }
+    const {pageNumber, pageSize} = pageable;
+    return {current: pageNumber === undefined ? undefined : pageNumber + 1, pageSize};
+};
 
 export class Pager extends React.Component {
 
     render() {
-        let {align, visible} = this.props;
-        let props = _.omit(this.props, ['align']);
+        let {pageable, align, visible, ...rest} = this.props;
         return visible ? (
             <div style={{textAlign: align, margin: "10px 0"}}>
-                <Pagination {...props}/>
+                <Pagination {...pageableToPagination(pageable)} {...rest}/>
             </div>
         ) : null;
     }

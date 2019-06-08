@@ -1,9 +1,11 @@
 import React from "react";
-import commonCss from "common/common.css";
-import commonColor from "common/color.css";
+import commonCss from "common/common.less";
 import {Button, Form, Icon, Input, Layout} from "antd";
 import {Copyright} from "ui";
 import {login} from "service/session.js";
+import {dispatch} from "module/store.js";
+import {userLogin} from "module/actions.js";
+import {push} from "util/router.js";
 
 const {Content, Footer} = Layout;
 const FormItem = Form.Item;
@@ -21,7 +23,8 @@ class LoginForm extends React.Component {
     };
     login = async ({username, password}) => {
         const user = await login(username, password);
-        console.log(user);
+        dispatch(userLogin(user));
+        push("/");
     };
     decorateField = (id, options, FieldComponent) => {
         const {getFieldDecorator} = this.props.form;
@@ -30,13 +33,13 @@ class LoginForm extends React.Component {
     renderUsername = () => {
         return this.decorateField("username", {rules: [{required: true, message: "请输入用户名"}]}, (
             <Input size="large" placeholder="请输入用户名"
-                   prefix={<Icon type="user" className={commonColor.grey}/>}/>
+                   prefix={<Icon type="user" className={commonCss.darkGrey}/>}/>
         ));
     };
     renderPassword = () => {
         return this.decorateField("password", {rules: [{required: true, message: "请输入密码"}]}, (
             <Input size="large" type="password" placeholder="请输入密码"
-                   prefix={<Icon type="lock" className={commonColor.grey}/>}/>
+                   prefix={<Icon type="lock" className={commonCss.darkGrey}/>}/>
         ))
     };
 
@@ -67,7 +70,7 @@ const LoginPage = () => (
             }}>
         <Content>
             <h2 className={commonCss.centerContent} style={{marginTop: 140}}>
-                Blog Backend
+                Backend
             </h2>
             <LoginForm/>
         </Content>

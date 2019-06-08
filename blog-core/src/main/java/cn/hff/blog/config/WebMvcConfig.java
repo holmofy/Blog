@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguratio
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -58,5 +59,10 @@ public class WebMvcConfig implements WebMvcConfigurer,
         return new JavaTimeModule()
                 .addSerializer(new LocalDateTimeSerializer(standardDateTime))
                 .addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(standardDateTime));
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/*").allowCredentials(true).allowedMethods("*").allowedOrigins("*");
     }
 }

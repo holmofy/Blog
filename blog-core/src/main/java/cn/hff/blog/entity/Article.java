@@ -53,25 +53,25 @@ public class Article {
     private LocalDateTime modified;
 
     @JsonView(Views.WithoutLob.class)
-    private Integer views;
+    private int views;
 
     /**
      * 可能会和{@link Comment}的条数有所差异，不过无所谓啦，这里效率重要
      */
     @JsonView(Views.WithoutLob.class)
-    private Integer comments;
+    private int comments;
 
     @JsonView(Views.WithoutLob.class)
     private Integer categoryId;
 
     @JsonView(Views.WithoutLob.class)
-    private Integer authorId;
+    private int authorId;
 
     @JsonView(Views.WithoutLob.class)
-    private Boolean isDenyComment;
+    private boolean isDenyComment;
 
     @JsonView(Views.WithoutLob.class)
-    private Boolean published;
+    private boolean published;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)

@@ -71,13 +71,13 @@ public class User {
     private String nickName;
 
     @JsonView(Views.Public.class)
+    private LocalDateTime lastLoginTime;
+
+    @JsonView(Views.Public.class)
     @CreatedDate
     private LocalDateTime created;
 
     @JsonView(Views.Public.class)
     @LastModifiedDate
     private LocalDateTime modified;
-
-    @JsonView(Views.Public.class)
-    private LocalDateTime lastLoginTime;
 }

@@ -2,6 +2,7 @@ package cn.hff.blog.entity;
 
 import java.time.LocalDateTime;
 
+import javax.annotation.Nullable;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -36,6 +37,10 @@ public class Comment {
     @NotNull
     private Integer articleId;
 
+    /**
+     * 这条评论是回复哪条评论的
+     */
+    @Nullable
     private Integer replyId;
 
     private String name;
@@ -46,9 +51,9 @@ public class Comment {
 
     private String website;
 
-    private Integer agree;
+    private int agree;
 
-    private Integer disagree;
+    private int disagree;
 
     @CreatedDate
     private LocalDateTime createTime;

@@ -2,7 +2,6 @@ package cn.hff.blog.entity;
 
 import java.time.LocalDateTime;
 
-import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -10,43 +9,41 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * 文章分类实体类
- *
- * @author Holmofy
+ * @author holmofy
  */
 @Data
 @Entity
-@Table(name = "tb_category")
+@Table(name = "tb_audit_log")
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Category {
+public class AuditLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * @see User#id
      */
-    @NaturalId
-    private int userId;
+    private Integer userId;
 
-    @NaturalId
-    private String name;
-
-    @Nullable
-    private Integer parentId;
+    private String detail;
 
     @CreatedDate
     private LocalDateTime created;
 
-    @LastModifiedDate
-    private LocalDateTime modified;
+    public static AuditLog create(int userId, String detail) {
+        AuditLog log = new AuditLog();
+        log.userId = userId;
+        log.detail = detail;
+        return log;
+    }
+
 }
