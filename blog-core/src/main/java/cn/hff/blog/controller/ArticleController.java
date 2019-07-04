@@ -27,6 +27,7 @@ import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
 import cn.hff.blog.mvc.CurrentUser;
 import cn.hff.blog.service.ArticleService;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @RestController
 @RequestMapping("/api/article")
@@ -65,7 +66,7 @@ public class ArticleController {
     @GetMapping
     @JsonView(Views.WithoutLob.class)
     public Page<Article> search(@RequestParam ArticleSearchDto search,
-                                @PageableDefault(sort = "created") Pageable pageable) {
+                                @PageableDefault(sort = "created", direction = DESC) Pageable pageable) {
         return articleService.search(search, pageable);
     }
 

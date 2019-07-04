@@ -109,9 +109,6 @@ const lessLoaderRule = {
         },
         {
             loader: 'less-loader', // compiles Less to CSS
-            options: {
-                javascriptEnabled: true
-            }
         }
     ],
     exclude: [path.resolve(__dirname, 'node_modules')]
@@ -129,6 +126,12 @@ const vendorsCssLoaderRule = {
         },
         {
             loader: 'less-loader', // compiles Less to CSS
+            options: {
+                javascriptEnabled: true,
+                modifyVars: {
+                    'hack': `true; @import "${path.resolve(__dirname, 'src/common/color.less')}";`
+                }
+            }
         }
     ],
     include: [path.resolve(__dirname, 'node_modules')]
