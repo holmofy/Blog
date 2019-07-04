@@ -1,13 +1,13 @@
 @import "common/color";
 
 .header {
-  background: @white;
+  background: @primary-background;
   padding: 0;
 }
 
 .content {
   margin: 24px 16px;
-  background: @white;
+  background: @primary-background;
 }
 
 .btn {
@@ -15,7 +15,11 @@
 }
 
 .btn:hover {
-  background-color: lighten(@black, 96%);
+  background-color: darken(@primary-background, 2%);
+}
+
+.btn:active {
+  background-color: darken(@primary-background, 4%);
 }
 
 .text {

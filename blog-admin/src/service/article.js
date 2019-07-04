@@ -6,8 +6,8 @@ export function findArticleById(id) {
     return ajax(path).path(id).get();
 }
 
-export function getArticles(published, page = 1, size = 15) {
-    return ajax(path).query({published, page, size}).get();
+export function search(query, page = 1, size = 15) {
+    return ajax(path).query({...query, page, size}).get();
 }
 
 export function saveArticle(article) {

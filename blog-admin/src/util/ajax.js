@@ -14,12 +14,13 @@ const instance = axios.create({
     withCredentials: true, // 是否允许带cookie这些
 });
 
-instance.interceptors.response.use((response) => {
+instance.interceptors.response.use(response => response.data, (err) => {
+    const response = JSON.parse(JSON.stringify(err)).response;
     if (response.status === 401) {
         push("/login");
     }
-    return response.data
-}, (err) => Promise.reject(err));
+    return Promise.reject(err)
+});
 
 class Ajax {
     constructor(url) {

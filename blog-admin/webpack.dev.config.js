@@ -1,5 +1,7 @@
 const path = require('path');
+const {IgnorePlugin} = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 /**
  * https://webpack.js.org/configuration/dev-server
@@ -43,7 +45,12 @@ function babelOptions() {
         "plugins": [
             ["@babel/plugin-proposal-decorators", {legacy: true}],
             ["@babel/plugin-proposal-class-properties", {loose: true}],
-            ["@babel/plugin-transform-runtime"]
+            ["@babel/plugin-transform-runtime"],
+            ["@babel/plugin-proposal-export-default-from"],
+            ["import", {
+                "libraryName": "antd",
+                "style": true,   // or 'css'
+            }]
         ]
     };
 }
@@ -83,41 +90,101 @@ const babelLoaderRule = {
  * https://webpack.js.org/loaders/less-loader
  */
 const lessLoaderRule = {
-    test: /\.less$/,
+    test: /\.(less|css)$/,
     use: [
         {
-            loader: 'style-loader', // creates style nodes from JS strings
+            /* 使用MiniCss(<link>外部文件)替换style-loader(<style>js动态插入) */
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+                /* Hot Module Reloading */
+                hmr: true
+            }
         },
         {
             loader: 'css-loader', // translates CSS into CommonJS
             options: {
-                modules: true
+                modules: true,
+                localIdentName: '[name]_[local]_[hash:base64:5]'
             }
         },
         {
             loader: 'less-loader', // compiles Less to CSS
+            options: {
+                javascriptEnabled: true
+            }
         }
-    ]
+    ],
+    exclude: [path.resolve(__dirname, 'node_modules')]
 };
 
-module.exports = {
-    mode: 'development',
-    entry: './src/index.js',
-    output: {
-        // 表示在引入静态资源时，从根路径开始引入
-        publicPath: '/',
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
-    devServer: buildDevServer(),
-    module: {
-        rules: [babelLoaderRule, lessLoaderRule]
-    },
-    resolve: buildResolve(),
-    plugins: [
+const vendorsCssLoaderRule = {
+    test: /\.(less|css)$/,
+    use: [
+        {
+            /* 使用MiniCss(<link>外部文件)替换style-loader(<style>js动态插入) */
+            loader: MiniCssExtractPlugin.loader,
+        },
+        {
+            loader: 'css-loader', // translates CSS into CommonJS
+        },
+        {
+            loader: 'less-loader', // compiles Less to CSS
+        }
+    ],
+    include: [path.resolve(__dirname, 'node_modules')]
+};
+
+
+const fileLoaderRule = {
+    test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
+    use: [{
+        loader: 'url-loader',
+        options: {
+            limit: 8192,
+            publicPath: '/img/',
+            outputPath: path.resolve(__dirname, 'dist', 'img')
+        }
+    }]
+};
+
+function buildPlugins() {
+    return [
+        new IgnorePlugin({
+            resourceRegExp: /^\.\/locale$/,
+            contextRegExp: /moment$/
+        }),
         new HtmlWebpackPlugin({
             title: "开发中...",
             template: "./public/index.html"
         }),
-    ]
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css',
+        }),
+    ];
+}
+
+module.exports = {
+    mode: 'development',
+    entry: {
+        app: './src/index.js',
+        vendors: ['antd', 'codemirror', 'tui-editor']
+    },
+    output: {
+        // 表示在引入静态资源时，从根路径开始引入
+        publicPath: '/',
+        filename: '[name].[chunkhash].js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    devServer: buildDevServer(),
+    module: {
+        rules: [
+            babelLoaderRule,
+            fileLoaderRule,
+            lessLoaderRule,
+            vendorsCssLoaderRule
+        ]
+    },
+    resolve: buildResolve(),
+    plugins: buildPlugins()
 };

@@ -47,7 +47,7 @@ const Sidebar = ({location, collapsed}) => {
 const getUserMenu = (onLogout) => () => (
     <Menu>
         <Menu.Item>
-            <ButtonLink url="/article">
+            <ButtonLink href="/article">
                 <Icon type="setting"/> User Center
             </ButtonLink>
         </Menu.Item>
@@ -85,6 +85,7 @@ class Root extends Component {
 
     componentDidMount() {
         const {userLogin} = this.props;
+        console.log(userLogin)
         currentUser().then(user => userLogin(user), () => push("/login"))
     }
 
@@ -112,8 +113,8 @@ class Root extends Component {
                     </Header>
                     <Content className={css.content}>
                         <Switch>
-                            <Route path="/dashboard" component={props => <DashboardPage {...props}/>}/>
-                            <Route path="/article" exact component={props => <ArticleList {...props}/>}/>
+                            <Route path="/dashboard" component={DashboardPage}/>
+                            <Route path="/article" exact component={() => <ArticleList/>}/>
                             <Route path="/article/:id" component={ArticleEdit}/>
                             <Redirect to="/dashboard"/>
                         </Switch>
@@ -127,6 +128,7 @@ class Root extends Component {
 
 export default class App extends Component {
     render() {
+        console.log(process.env);
         return (
             <Router>
                 <Switch>

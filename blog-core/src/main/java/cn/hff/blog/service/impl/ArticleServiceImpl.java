@@ -13,6 +13,7 @@ import com.google.common.base.Preconditions;
 
 import cn.hff.blog.dao.ArticleDao;
 import cn.hff.blog.dao.ArticleDao.IdAndTitle;
+import cn.hff.blog.dto.ArticleSearchDto;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
 import cn.hff.blog.exception.NotFoundException;
@@ -44,6 +45,12 @@ public class ArticleServiceImpl implements ArticleService {
         articleDao.deleteById(id);
     }
 
+    @Override
+    public void safeDelete(User user, int id) {
+        checkPermission(user, id);
+        articleDao.safeDeleteById(id);
+    }
+
     private void checkPermission(User user, int articleId) {
         Integer authorId = articleDao.getAuthorIdById(articleId);
         if (!user.getId().equals(authorId)) {
@@ -59,9 +66,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> getPage(@Nullable Boolean published, Pageable pageable) {
+    public Page<Article> search(ArticleSearchDto search, Pageable pageable) {
         checkPageable(pageable);
-        return published == null ? articleDao.findAll(pageable) : articleDao.findByPublished(published, pageable);
+        return articleDao.findBySearch(search, pageable);
     }
 
     @Override

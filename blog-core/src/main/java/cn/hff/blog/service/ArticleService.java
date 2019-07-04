@@ -2,12 +2,11 @@ package cn.hff.blog.service;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import cn.hff.blog.dao.ArticleDao.IdAndTitle;
+import cn.hff.blog.dto.ArticleSearchDto;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
 
@@ -24,9 +23,11 @@ public interface ArticleService {
 
     void delete(User user, int id);
 
+    void safeDelete(User user, int id);
+
     Article update(User user, int id, Article article);
 
-    Page<Article> getPage(@Nullable Boolean published, Pageable pageable);
+    Page<Article> search(ArticleSearchDto search, Pageable pageable);
 
     /**
      * 根据用户输入的标题前缀联想用户想要查询的文章

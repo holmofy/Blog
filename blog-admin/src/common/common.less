@@ -1,20 +1,24 @@
 @import "color";
 
-.darkGrey {
-  color: @darkGrey;
+a {
+  color: @text-color;
+}
+
+a:hover {
+  color: lighten(@text-color, 4);
 }
 
 .fullHeight {
-  height: 100vh;
+  height: 100vh !important;
 }
 
 .centerContent {
-  text-align: center;
+  text-align: center !important;
 }
 
 .centerSelf {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .flexBox {

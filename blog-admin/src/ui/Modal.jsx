@@ -20,8 +20,8 @@ export class ModalWrapper extends Component {
         const {children} = this.props;
         return React.Children.map(children, child => {
             const {props: source} = child;
-            const props = _.assign({}, source, {modalInterface: this});
-            return _.assign({}, child, {props});
+            const props = {...source, modalInterface: this};
+            return {...child, props};
         });
     };
 

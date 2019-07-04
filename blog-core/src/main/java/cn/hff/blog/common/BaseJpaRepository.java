@@ -29,6 +29,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
  * @see org.hibernate.Criteria
  * @see org.hibernate.criterion.Restrictions
  * @see org.hibernate.jpa.criteria.CriteriaBuilderImpl
+ * @see EnhancedJpaRepository
  */
 @Transactional
 @NoRepositoryBean

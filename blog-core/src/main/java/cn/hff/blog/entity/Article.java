@@ -73,6 +73,9 @@ public class Article {
     @JsonView(Views.WithoutLob.class)
     private boolean published;
 
+    @JsonView(Views.WithoutLob.class)
+    private boolean deleted;
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @JsonView(Views.WithLob.class)

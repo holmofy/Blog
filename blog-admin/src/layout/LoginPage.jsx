@@ -55,7 +55,7 @@ class LoginForm extends React.Component {
                 <FormItem>{this.renderPassword()}</FormItem>
                 <FormItem>
                     <Button size="large" type="primary" htmlType="submit"
-                            style={{width: "100%"}}>登录</Button>
+                            block>登录</Button>
                 </FormItem>
             </Form>
         );

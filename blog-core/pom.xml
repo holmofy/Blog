@@ -59,6 +59,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.11.3</version>
+            <scope>test</scope>
+        </dependency>
         <!-- TomcatDBCP -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
