@@ -129,7 +129,7 @@ const vendorsCssLoaderRule = {
             options: {
                 javascriptEnabled: true,
                 modifyVars: {
-                    'hack': `true; @import "${path.resolve(__dirname, 'src/common/color.less')}";`
+                    'hack': `true; @import "${path.resolve(__dirname, 'src/common/theme.less')}";`
                 }
             }
         }

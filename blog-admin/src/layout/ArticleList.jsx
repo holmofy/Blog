@@ -54,7 +54,7 @@ export class ArticleList extends Component {
     handleDelete = (articleId) => {
         Modal.confirm({
             title: "确认删除改文章",
-            content: "确认删除改文章",
+            content: "文章会在回收站保留三天",
             onOk: async () => {
                 try {
                     await deleteArticle(articleId);
