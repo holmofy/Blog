@@ -65,7 +65,7 @@ public class ArticleController {
 
     @GetMapping
     @JsonView(Views.WithoutLob.class)
-    public Page<Article> search(@RequestParam ArticleSearchDto search,
+    public Page<Article> search(ArticleSearchDto search,
                                 @PageableDefault(sort = "created", direction = DESC) Pageable pageable) {
         return articleService.search(search, pageable);
     }

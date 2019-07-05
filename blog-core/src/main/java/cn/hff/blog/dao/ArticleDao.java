@@ -27,9 +27,9 @@ public interface ArticleDao extends BaseJpaRepository<Article, Integer> {
     void safeDeleteById(int id);
 
     default Page<Article> findBySearch(ArticleSearchDto search, Pageable pageable) {
-        Specification.where(eq(Article_.published, search.getPublished()))
+        Specification<Article> spec = Specification.where(eq(Article_.published, search.getPublished()))
                 .and(eq(Article_.deleted, search.getDeleted()));
-        return findAll(pageable);
+        return findAll(spec, pageable);
     }
 
     List<IdAndTitle> findByAuthorIdAndTitleStartsWith(int authorId, String titlePrefix, Pageable pageable);
