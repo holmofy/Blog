@@ -2,20 +2,10 @@ package cn.hff.blog.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.JacksonTester;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 
+import cn.hff.blog.BaseControllerTest;
 import cn.hff.blog.dao.ArticleDao;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.User;
@@ -26,27 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by Holmofy on 2018/6/23.
- */
-@SpringBootTest
-@WebAppConfiguration
-@AutoConfigureMockMvc
-@AutoConfigureJsonTesters
-@AutoConfigureTestDatabase
-@AutoConfigureTestEntityManager
-@RunWith(SpringRunner.class)
-public class ArticleControllerTest {
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    MockHttpSession session;
-
-    @Autowired
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    JacksonTester<Article> json;
+public class ArticleControllerTest extends BaseControllerTest<Article> {
 
     @Autowired
     private ArticleDao articleDao;

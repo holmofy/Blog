@@ -1,4 +1,4 @@
-package cn.hff.blog.config;
+package cn.hff.blog.common;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -7,24 +7,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import cn.hff.blog.common.EnhancedJpaFactoryBean;
-import cn.hff.blog.common.EnhancedJpaRepository;
-import cn.hff.blog.entity.User;
+import cn.hff.blog.common.dao.TestEntityDao;
+import cn.hff.blog.common.entity.TestEntity;
 
-/**
- * 数据库与事务相关配置
- * <p>
- * Created by Holmofy on 2018/6/22.
- */
 @Configuration
 @EnableJpaAuditing
 @AutoConfigureAfter(JdbcTemplateAutoConfiguration.class)
-@EntityScan(basePackageClasses = User.class)
+@EntityScan(basePackageClasses = TestEntity.class)
 @EnableJpaRepositories(
-        basePackages = "cn.hff.blog.dao",
+        basePackageClasses = TestEntityDao.class,
         repositoryBaseClass = EnhancedJpaRepository.class,
         repositoryFactoryBeanClass = EnhancedJpaFactoryBean.class
 )
-public class DbConfig {
-
+public class DbTestConfig {
 }

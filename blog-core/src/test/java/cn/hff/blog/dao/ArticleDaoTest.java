@@ -4,58 +4,24 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.common.collect.Iterators;
 
-import cn.hff.blog.config.DbConfig;
+import cn.hff.blog.BaseDaoTest;
 import cn.hff.blog.dao.ArticleDao.IdAndTitle;
 import cn.hff.blog.entity.Article;
-import cn.hff.blog.entity.Category;
-import cn.hff.blog.entity.Comment;
 
 /**
  * 数据访问层测试用例
  *
  * @author Holmofy
  */
-@DataJpaTest
-@ImportAutoConfiguration(DbConfig.class)
-@RunWith(SpringRunner.class)
-public class DaoTest {
-
-    @Autowired
-    private CommentDao commentDao;
-
-    @Autowired
-    private CategoryDao categoryDao;
+public class ArticleDaoTest extends BaseDaoTest {
 
     @Autowired
     private ArticleDao articleDao;
-
-    @Test
-    public void testCommentDao() {
-        Comment comment = new Comment();
-        comment.setIp("183.56.74.34");
-        comment.setArticleId(10);// articleId必填字段
-        Comment save = commentDao.save(comment);
-        Assert.assertEquals(save.getIp(), "183.56.74.34");
-        Assert.assertEquals(save.getArticleId().intValue(), 10);
-    }
-
-    @Test
-    public void testCategoryDao() {
-        Category category = new Category();
-        category.setName("分类一");
-        Category save = categoryDao.save(category);
-        String name = categoryDao.getNameById(save.getId());
-        Assert.assertEquals(name, "分类一");
-    }
 
     @Test
     public void testArticleDao() {

@@ -7,14 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static cn.hff.blog.common.BaseJpaRepository.*;
@@ -27,20 +21,9 @@ import static java.util.Arrays.asList;
  * @author holmofy
  */
 @DataJpaTest
-@ImportAutoConfiguration(EnhanceJpaRepositoryTest.DbTestConfig.class)
+@ImportAutoConfiguration(DbTestConfig.class)
 @RunWith(SpringRunner.class)
 public class EnhanceJpaRepositoryTest {
-
-    @Configuration
-    @EnableJpaAuditing
-    @AutoConfigureAfter(JdbcTemplateAutoConfiguration.class)
-    @EntityScan(basePackageClasses = TestEntity.class)
-    @EnableJpaRepositories(
-            basePackageClasses = TestEntityDao.class,
-            repositoryBaseClass = EnhancedJpaRepository.class
-    )
-    static class DbTestConfig {
-    }
 
     @Autowired
     private TestEntityDao testEntityDao;

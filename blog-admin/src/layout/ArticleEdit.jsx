@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {findArticleById} from "service/article.js";
-import { Editor } from '@toast-ui/react-editor'
+import ReactMarkdown from "react-markdown";
 
 export class ArticleEdit extends Component {
 
@@ -21,7 +21,7 @@ export class ArticleEdit extends Component {
 
         const input = '# This is a header\n\nAnd this is a paragraph'
         return (
-            <Editor initialValue={input}/>
+            <ReactMarkdown source={input}/>
         );
     }
 }
