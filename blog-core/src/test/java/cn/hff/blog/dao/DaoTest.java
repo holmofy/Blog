@@ -8,25 +8,24 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.common.collect.Iterators;
 
-import cn.hff.blog.config.DBConfig;
+import cn.hff.blog.config.DbConfig;
 import cn.hff.blog.dao.ArticleDao.IdAndTitle;
 import cn.hff.blog.entity.Article;
 import cn.hff.blog.entity.Category;
 import cn.hff.blog.entity.Comment;
 
 /**
- * 数据访问层测试用例，主要看IPV4地址是否保存成功
+ * 数据访问层测试用例
  *
  * @author Holmofy
  */
 @DataJpaTest
-@ImportAutoConfiguration(DBConfig.class)
+@ImportAutoConfiguration(DbConfig.class)
 @RunWith(SpringRunner.class)
 public class DaoTest {
 

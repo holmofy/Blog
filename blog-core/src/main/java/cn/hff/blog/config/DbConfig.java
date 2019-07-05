@@ -20,6 +20,6 @@ import cn.hff.blog.common.EnhancedJpaRepository;
         basePackages = "cn.hff.blog.dao",
         repositoryBaseClass = EnhancedJpaRepository.class
 )
-public class DBConfig {
+public class DbConfig {
 
 }

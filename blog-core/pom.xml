@@ -82,7 +82,7 @@
             </exclusions>
         </dependency>
         <!-- JpaModelGenerator -->
-        <!-- 参考 https://docs.jboss.org/hibernate/orm/5.0/topical/html/metamodelgen/MetamodelGenerator.html-->
+        <!-- 参考 https://docs.jboss.org/hibernate/orm/5.0/topical/html/metamodelgen/MetamodelGenerator.html -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
